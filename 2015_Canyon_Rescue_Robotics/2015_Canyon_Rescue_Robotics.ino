@@ -1,23 +1,19 @@
 #include "config.h"
 #include <SPI.h>
 #include <WiFi.h>
+#include <SoftwareSerial.h>
 #include <HardwareSerial.h>
 #include <Adafruit_GPS.h>
+#include <Servo.h>
+
+#import "RelativePositionController.h"
 
 bool usingInterrupt = true;
 
-//variable declarations
-double homePositionLat;
-double homePositionLon;
-bool homeSet = false;
-
-double relativeY;
-double relativeX;
 
 
-//funcion prototypes
-void setHomePosition();
-void updateRelativePosition();
+
+
 
 
 //Select the serial
@@ -25,18 +21,18 @@ void updateRelativePosition();
 HardwareSerial gpsSerial = Serial1;
 
 Adafruit_GPS GPS(&gpsSerial);
-
+RelativePositionController relativePosition;
 
 
 void setup()
 {
-
+	Serial.begin(9600);
 
 	GPS.begin(9600);
 	GPS.sendCommand(PMTK_SET_NMEA_OUTPUT_RMCGGA);
 	GPS.sendCommand(PMTK_SET_NMEA_UPDATE_1HZ);
 
-	setHomePosition();
+	relativePosition.setHomePosition(GPS.latitude,GPS.longitude);
 
 }
 
@@ -64,39 +60,24 @@ uint32_t timer = millis();
 void loop()
 {
 
+// ---------- Update GPS object
 	if (GPS.newNMEAreceived()) {
 		if (!GPS.parse(GPS.lastNMEA()))   // this also sets the newNMEAreceived() flag to false
 			return;  // we can fail to parse a sentence in which case we should just wait for another
 	}
 	if (timer > millis())  timer = millis();
 
-	updateRelativePosition();
+
+// ---------- Update Relative position
+	relativePosition.updateRelativePosition(GPS.latitude,GPS.longitude);
 
 	//Add your repeated code here
 }
 
 
-void setHomePosition()
-{
-	if (!homeSet){
-  homePositionLat = GPS.latitude;
-  homePositionLon = GPS.longitude;
-  homeSet = true;
-	}
-}
 
 
-void updateRelativePosition()
-{
 
-  if(homeSet){
-    relativeY = (GPS.latitude - homePositionLat)*110575;
-    relativeX = (GPS.longitude - homePositionLon)*111303;
-  }
-  else if (!homeSet){
-    Serial.println("home position not set");
-  }
-}
 
 
 

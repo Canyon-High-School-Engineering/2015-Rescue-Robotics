@@ -11,28 +11,45 @@
 bool usingInterrupt = true;
 
 
-
-
-
+Servo yawServo;
+Servo throttleServo;
+Servo pitchServo;
+Servo rollServo;
 
 
 //Select the serial
 //SoftwareSerial gpsSerial(2,3);
 HardwareSerial gpsSerial = Serial1;
 
-Adafruit_GPS GPS(&gpsSerial);
-RelativePositionController relativePosition;
+Adafruit_GPS GPS(&gpsSerial); //Instantiate GPS
+
+RelativePositionController relativePosition; //Instantiate relative position controller
 
 
 void setup()
 {
+	//set up serial debugging
 	Serial.begin(9600);
 
+	//inialize GPS
 	GPS.begin(9600);
 	GPS.sendCommand(PMTK_SET_NMEA_OUTPUT_RMCGGA);
 	GPS.sendCommand(PMTK_SET_NMEA_UPDATE_1HZ);
 
+	//set home position for relative calculations
 	relativePosition.setHomePosition(GPS.latitude,GPS.longitude);
+
+	//attach servos
+	yawServo.attach(YAW_PIN);
+	throttleServo.attach(THROTTLE_PIN);
+	pitchServo.attach(PITCH_PIN);
+	rollServo.attach(ROLL_PIN);
+
+	//zero all servos
+	yawServo.writeMicroseconds(1500);
+	throttleServo.writeMicroseconds(1500);
+	pitchServo.writeMicroseconds(1500);
+	rollServo.writeMicroseconds(1500);
 
 }
 
@@ -73,11 +90,6 @@ void loop()
 
 	//Add your repeated code here
 }
-
-
-
-
-
 
 
 

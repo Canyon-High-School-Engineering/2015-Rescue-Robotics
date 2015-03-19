@@ -45,6 +45,6 @@ void RelativePositionController::updateRelativePosition(float lat, float lon)
     relativeX = (lon - homePositionLon)*111303;
   }
   else if (!homeSet){
-   // Serial.println("home position not set");
+  Serial.println("home position not set");
   }
 }

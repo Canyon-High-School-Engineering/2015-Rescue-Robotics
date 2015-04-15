@@ -4,7 +4,7 @@
  *  Created on: Mar 18, 2015
  *      Author: Seth
  */
-
+#include "config.h"
 #include "RelativePositionController.h"
 
 RelativePositionController::RelativePositionController() {
@@ -28,21 +28,23 @@ RelativePositionController::~RelativePositionController() {
 }
 
 
-void RelativePositionController::setHomePosition(float lat, float lon)
+void RelativePositionController::setHomePosition(float lat, float lon, float alt)
 {
 	if (!homeSet){
   homePositionLat = lat;
   homePositionLon = lon;
+  homePositionAlt = alt;
   homeSet = true;
 	}
 }
 
-void RelativePositionController::updateRelativePosition(float lat, float lon)
+void RelativePositionController::updateRelativePosition(float lat, float lon, float alt)
 {
 
   if(homeSet){
     relativeY = (lat - homePositionLat)*110575;
     relativeX = (lon - homePositionLon)*111303;
+    relativeZ = alt - homePositionAlt;
   }
   else if (!homeSet){
   Serial.println("home position not set");

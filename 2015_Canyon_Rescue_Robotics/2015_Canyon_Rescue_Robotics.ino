@@ -5,16 +5,13 @@
 #include <HardwareSerial.h>
 #include <Adafruit_GPS.h>
 #include <Servo.h>
+#include <PID_v1.h>
 
 #import "RelativePositionController.h"
 
 bool usingInterrupt = true;
 
 
-Servo yawServo;
-Servo throttleServo;
-Servo pitchServo;
-Servo rollServo;
 
 
 //Select the serial
@@ -37,19 +34,8 @@ void setup()
 	GPS.sendCommand(PMTK_SET_NMEA_UPDATE_1HZ);
 
 	//set home position for relative calculations
-	relativePosition.setHomePosition(GPS.latitude,GPS.longitude);
+	relativePosition.setHomePosition(GPS.latitude,GPS.longitude, GPS.altitude);
 
-	//attach servos
-	yawServo.attach(YAW_PIN);
-	throttleServo.attach(THROTTLE_PIN);
-	pitchServo.attach(PITCH_PIN);
-	rollServo.attach(ROLL_PIN);
-
-	//zero all servos
-	yawServo.writeMicroseconds(1500);
-	throttleServo.writeMicroseconds(1500);
-	pitchServo.writeMicroseconds(1500);
-	rollServo.writeMicroseconds(1500);
 
 }
 
@@ -86,9 +72,49 @@ void loop()
 
 
 // ---------- Update Relative position
-	relativePosition.updateRelativePosition(GPS.latitude,GPS.longitude);
+	relativePosition.updateRelativePosition(GPS.latitude,GPS.longitude,GPS.altitude);
 
 	//Add your repeated code here
+
+	switch(FlightMode) {
+
+	case "arm":
+
+		break;
+
+	case takeOff:
+
+		break;
+
+	case FlyToBucket:
+
+		break;
+
+	case recordPhotoAndCoordinates:
+
+		break;
+
+	case setNextBucket:
+
+		break;
+
+	case returnToCenter:
+
+		break;
+
+	case land:
+
+		break;
+
+	case disarm:
+
+		break;
+
+	case emergencyStop:
+		//do nothing
+		break;
+	}
+
 }
 
 

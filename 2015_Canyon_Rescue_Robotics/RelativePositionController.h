@@ -10,19 +10,19 @@
 
 class RelativePositionController {
 	//variable declarations
-	double homePositionLat;
-	double homePositionLon;
-	double homePositionAlt;
+	double homePositionLat; //home latitude in degrees
+	double homePositionLon; //home longitude in degrees
+	double homePositionAlt; //home altitude in meters
 	bool homeSet = false;
 
 
 public:
 	//variable declarations
-	double relativeY;
-	double relativeX;
-	double relativeZ;
-	//Function prototypes
+	double relativeY; //  y position in meters
+	double relativeX; // x position in meters
+	double relativeZ; // z position in meters
 
+	//Function prototypes
 	RelativePositionController(); // default constructor
 	RelativePositionController(float lat, float lon, float alt);
 	virtual ~RelativePositionController(); //destructor

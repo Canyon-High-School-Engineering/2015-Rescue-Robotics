@@ -19,10 +19,10 @@ FlightController::FlightController() {
 //	Servo pitchServo;
 //	Servo rollServo;
 
-//	// Instantiate PID controllers
-//	PID throttlePID = new PID(&Input, &Output, &Setpoint,THROTTLE_PID_K,THROTTLE_PID_I,THROTTLE_PID_D, DIRECT);
-//	PID pitchPID = new PID(&Input, &Output, &Setpoint,PITCH_PID_K,PITCH_PID_I,PITCH_PID_D, DIRECT);
-//	PID rollPID = new PID(&Input, &Output, &Setpoint,ROLL_PID_K,ROLL_PID_I,ROLL_PID_D, DIRECT);
+	// Instantiate PID controllers
+	PID throttlePID = new PID(&throttleInput, &throttleOutput, &throttleSetpoint,.5,.1,0, DIRECT);
+	PID pitchPID = new PID(&pitchInput, &pitchOutput, &pitchSetpoint,PITCH_PID_K,PITCH_PID_I,PITCH_PID_D, DIRECT);
+	PID rollPID = new PID(&rollInput, &rollOutput, &rollSetpoint,ROLL_PID_K,ROLL_PID_I,ROLL_PID_D, DIRECT);
 
 	//attach servos
 	yawServo.attach(YAW_PIN);

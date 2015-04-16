@@ -8,6 +8,7 @@
 #include <PID_v1.h>
 
 #import "RelativePositionController.h"
+#import "FlightController.h"
 
 bool usingInterrupt = true;
 
@@ -21,10 +22,31 @@ HardwareSerial gpsSerial = Serial1;
 Adafruit_GPS GPS(&gpsSerial); //Instantiate GPS
 
 RelativePositionController relativePosition; //Instantiate relative position controller
+FlightController flight; //Instantiate flight controller
+
+//state machine state enumeration
+enum FlightModeEnum {WAIT_FOR_TRIGGER,
+	ARM,TAKE_OFF,
+	FLY_TO_BUCKET,RECORD_PHOTO_AND_COORDINATES,
+	SET_NEXT_BUCKET,RETURN_TO_CENTER,
+	LAND,DISARM,
+	EMERGENCY_STOP};
+
+FlightModeEnum flightMode = WAIT_FOR_TRIGGER;
+
+//variables for bucket coordinate calculation
+int bucketIndex = 0;
+double bucketPolarTheta = 0;
+double bucketPolarRadius = 10;
+double targetBucketX;
+double targetBucketY;
 
 
 void setup()
 {
+	//instantiate and initalize state machine enum
+
+
 	//set up serial debugging
 	Serial.begin(9600);
 
@@ -76,41 +98,96 @@ void loop()
 
 	//Add your repeated code here
 
-	switch(FlightMode) {
+	switch(flightMode) {
 
-	case "arm":
-
+	case WAIT_FOR_TRIGGER:
+		if(digitalRead(AUTOPILOT_ACTIVE)){
+			flightMode = ARM;
+		}
 		break;
 
-	case takeOff:
+	case ARM:
+		flight.arm();
 
+		delay(5000); //delay for 5 seconds
+
+		flightMode = TAKE_OFF; //go to next state
 		break;
 
-	case FlyToBucket:
-
+	case TAKE_OFF:
+		if(abs(flight.goToAltitude(3))<Z_MAX_ERROR){
+			flightMode=SET_NEXT_BUCKET;
+		}
+		else{
+			//do nothing
+		}
 		break;
 
-	case recordPhotoAndCoordinates:
+	case SET_NEXT_BUCKET:
+		//8 buckets around each ring, 45 degrees apart
+		//4 rings, 10 feet apart.
+		//first bucket shall be to the right
 
+		bucketIndex++;
+		bucketPolarTheta = 45 * (bucketIndex-1)%9;
+		if(bucketPolarTheta==0){
+			bucketPolarRadius = bucketPolarRadius+10;
+		}
+
+		if(bucketPolarRadius == 50){
+			flightMode = RETURN_TO_CENTER;
+			break;
+		}
+
+		targetBucketX = bucketPolarRadius * cos(bucketPolarTheta);
+		targetBucketY = bucketPolarRadius * sin(bucketPolarTheta);
+
+		flightMode = FLY_TO_BUCKET;
 		break;
 
-	case setNextBucket:
-
+	case FLY_TO_BUCKET:
+		if(abs(flight.goToPosition(targetBucketX,targetBucketY))<XY_MAX_ERROR){
+			flightMode=RECORD_PHOTO_AND_COORDINATES;
+		}
+		else{
+			//do nothing
+		}
 		break;
 
-	case returnToCenter:
+	case RECORD_PHOTO_AND_COORDINATES:
 
+		//magic happnens
+
+		flightMode = SET_NEXT_BUCKET;
 		break;
 
-	case land:
-
+	case RETURN_TO_CENTER:
+		if(abs(flight.goToPosition(0,0))<XY_MAX_ERROR){
+			flightMode=LAND;
+		}
+		else{
+			//do nothing
+		}
 		break;
 
-	case disarm:
-
+	case LAND:
+		if(abs(flight.goToAltitude(0))<Z_MAX_ERROR){
+			flightMode=SET_NEXT_BUCKET;
+		}
+		else{
+			//do nothing
+		}
 		break;
 
-	case emergencyStop:
+	case DISARM:
+		flight.disarm();
+
+		delay(5000); //delay for 5 seconds
+
+		flightMode = EMERGENCY_STOP; //go to next state
+		break;
+
+	case EMERGENCY_STOP:
 		//do nothing
 		break;
 	}

@@ -10,16 +10,20 @@
 RelativePositionController::RelativePositionController() {
 	homePositionLat = 0;
 	homePositionLon = 0;
+	homePositionAlt = 0;
 	relativeX = 0;
 	relativeY = 0;
+	relativeZ = 0;
 	homeSet = false;
 }
 
-RelativePositionController::RelativePositionController(float lat, float lon) {
-	homePositionLat = 0;
-	homePositionLon = 0;
+RelativePositionController::RelativePositionController(float lat, float lon, float alt) {
+	homePositionLat = lat;
+	homePositionLon = lon;
+	homePositionAlt = alt;
 	relativeX = 0;
 	relativeY = 0;
+	relativeZ = 0;
 	homeSet = false;
 }
 

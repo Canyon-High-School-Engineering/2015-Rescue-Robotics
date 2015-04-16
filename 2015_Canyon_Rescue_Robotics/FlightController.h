@@ -43,7 +43,8 @@ private:
 	Servo pitchServo;
 	Servo rollServo;
 
-	//delcare PID variables
+	//Declare PID variables
+	//Each PID controller seems to want its own set of variables
 	double throttleInput = 0;
 	double throttleOutput = 0;
 	double throttleSetpoint = 0;
@@ -61,7 +62,7 @@ private:
 
 
 	// Instantiate PID controllers
-	PID throttlePID = new PID(&throttleInput, &throttleOutput, &throttleSetpoint,THROTTLE_PID_K,THROTTLE_PID_I,THROTTLE_PID_D, DIRECT);
+	PID throttlePID = new PID(&throttleInput, &throttleOutput, &throttleSetpoint,.5,.1,0, DIRECT);
 	PID pitchPID = new PID(&pitchInput, &pitchOutput, &pitchSetpoint,PITCH_PID_K,PITCH_PID_I,PITCH_PID_D, DIRECT);
 	PID rollPID = new PID(&rollInput, &rollOutput, &rollSetpoint,ROLL_PID_K,ROLL_PID_I,ROLL_PID_D, DIRECT);
 

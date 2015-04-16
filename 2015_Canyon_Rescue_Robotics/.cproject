@@ -25,6 +25,9 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/2015_Canyon_Rescue_Robotics/Libraries/WiFi}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/2015_Canyon_Rescue_Robotics/Libraries/WiFi/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/2015_Canyon_Rescue_Robotics/Libraries/Adafruit_GPS_Library}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/2015_Canyon_Rescue_Robotics/Libraries/SoftwareSerial}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/2015_Canyon_Rescue_Robotics/Libraries/Servo}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/2015_Canyon_Rescue_Robotics/Libraries/Servo/src}&quot;"/>
 								</option>
 								<inputType id="it.baeyens.arduino.compiler.cpp.sketch.input.166905087" name="CPP source files" superClass="it.baeyens.arduino.compiler.cpp.sketch.input"/>
 							</tool>
@@ -36,6 +39,9 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/2015_Canyon_Rescue_Robotics/Libraries/WiFi}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/2015_Canyon_Rescue_Robotics/Libraries/WiFi/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/2015_Canyon_Rescue_Robotics/Libraries/Adafruit_GPS_Library}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/2015_Canyon_Rescue_Robotics/Libraries/SoftwareSerial}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/2015_Canyon_Rescue_Robotics/Libraries/Servo}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/2015_Canyon_Rescue_Robotics/Libraries/Servo/src}&quot;"/>
 								</option>
 								<inputType id="it.baeyens.arduino.compiler.c.sketch.input.842558630" name="C Source Files" superClass="it.baeyens.arduino.compiler.c.sketch.input"/>
 							</tool>

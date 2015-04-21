@@ -4,15 +4,20 @@
  *  Created on: Apr 10, 2015
  *      Author: Seth
  */
-
 #ifndef FLIGHTCONTROLLER_H_
 #define FLIGHTCONTROLLER_H_
+
+#include <Arduino.h>
+#include <PID_v1.h>
+#include <Servo.h>
+#include "RelativePositionController.h"
+#include "config.h"
 
 class FlightController {
 
 
 public:
-	FlightController(); // constructor
+	FlightController(RelativePositionController *RelativePosition); // constructor
 	virtual ~FlightController(); //destructor
 
 	// arm and disarm
@@ -28,8 +33,6 @@ public:
 
 
 
-
-
 private:
 
 	//declare functions
@@ -38,11 +41,17 @@ private:
 	void throttlePower(double power);
 
 	// Instantiate Servos
-	Servo yawServo;
-	Servo throttleServo;
-	Servo pitchServo;
-	Servo rollServo;
+	Servo* yawServo;
+	Servo* throttleServo;
+	Servo* pitchServo;
+	Servo* rollServo;
 
+	// Instantiate PID controllers
+	PID *throttlePID;
+	PID *pitchPID;
+	PID *rollPID;
+
+	RelativePositionController* relativePosition;
 	//Declare PID variables
 	//Each PID controller seems to want its own set of variables
 	double throttleInput = 0;
@@ -60,11 +69,9 @@ private:
 	double rollSetpoint = 0;
 	double rollError = 0;
 
+	double xyError = 0;
 
-	// Instantiate PID controllers
-	PID throttlePID = new PID(&throttleInput, &throttleOutput, &throttleSetpoint,.5,.1,0, DIRECT);
-	PID pitchPID = new PID(&pitchInput, &pitchOutput, &pitchSetpoint,PITCH_PID_K,PITCH_PID_I,PITCH_PID_D, DIRECT);
-	PID rollPID = new PID(&rollInput, &rollOutput, &rollSetpoint,ROLL_PID_K,ROLL_PID_I,ROLL_PID_D, DIRECT);
+
 
 };
 

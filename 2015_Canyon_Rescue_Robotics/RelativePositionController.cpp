@@ -24,7 +24,7 @@ RelativePositionController::RelativePositionController(float lat, float lon, flo
 	relativeX = 0;
 	relativeY = 0;
 	relativeZ = 0;
-	homeSet = false;
+	homeSet = true;
 }
 
 RelativePositionController::~RelativePositionController() {

@@ -13,7 +13,7 @@ class RelativePositionController {
 	double homePositionLat; //home latitude in degrees
 	double homePositionLon; //home longitude in degrees
 	double homePositionAlt; //home altitude in meters
-	bool homeSet = false;
+	bool homeSet;
 
 	double relativeY; //  y position in meters
 	double relativeX; // x position in meters

@@ -11,12 +11,12 @@
 
 
 FlightController::FlightController(RelativePositionController *RelativePosition) {
-	// TODO Auto-generated constructor stub
 	// Instantiate Servo
-	yawServo = new Servo();
-	throttleServo  = new Servo();
-	pitchServo  = new Servo();
-	rollServo = new Servo();
+//	yawServo = new Servo();
+//	throttleServo  = new Servo();
+//	pitchServo  = new Servo();
+//	rollServo = new Servo();
+
 	relativePosition = RelativePosition;
 
 	// Instantiate PID controllers
@@ -29,17 +29,22 @@ FlightController::FlightController(RelativePositionController *RelativePosition)
 	pitchPID->SetOutputLimits(-100, 100);
 	rollPID->SetOutputLimits(-100, 100);
 
+	//set PID mode
+	throttlePID->SetMode(AUTOMATIC);
+	pitchPID->SetMode(AUTOMATIC);
+	rollPID->SetMode(AUTOMATIC);
+
 	//attach servos
-	yawServo->attach(YAW_PIN);
-	throttleServo->attach(THROTTLE_PIN);
-	pitchServo->attach(PITCH_PIN);
-	rollServo->attach(ROLL_PIN);
+	yawServo.attach(YAW_PIN);
+	throttleServo.attach(THROTTLE_PIN);
+	pitchServo.attach(PITCH_PIN);
+	rollServo.attach(ROLL_PIN);
 
 	//zero all servos
-	yawServo->writeMicroseconds(1500);
-	throttleServo->writeMicroseconds(1500);
-	pitchServo->writeMicroseconds(1500);
-	rollServo->writeMicroseconds(1500);
+	yawServo.writeMicroseconds(1500);
+	throttleServo.writeMicroseconds(1500);
+	pitchServo.writeMicroseconds(1500);
+	rollServo.writeMicroseconds(1500);
 
 }
 
@@ -49,25 +54,25 @@ FlightController::~FlightController() {
 
 //arm and disarm
 void FlightController::arm(){
-	throttleServo->writeMicroseconds(1000);
-	yawServo->writeMicroseconds(1000);
+	throttleServo.writeMicroseconds(1000);
+	yawServo.writeMicroseconds(1000);
 	delay(6000);
 	allZero();
 }
 
 void FlightController::disarm(){
-	throttleServo->writeMicroseconds(1000);
-	yawServo->writeMicroseconds(2000);
+	throttleServo.writeMicroseconds(1000);
+	yawServo.writeMicroseconds(2000);
 	delay(6000);
 	allZero();
 }
 
 void FlightController::allZero(){
 	//zero all servos
-	yawServo->writeMicroseconds(1500);
-	throttleServo->writeMicroseconds(1500);
-	pitchServo->writeMicroseconds(1500);
-	rollServo->writeMicroseconds(1500);
+	yawServo.writeMicroseconds(1500);
+	throttleServo.writeMicroseconds(1500);
+	pitchServo.writeMicroseconds(1500);
+	rollServo.writeMicroseconds(1500);
 }
 
 
@@ -108,15 +113,15 @@ double FlightController::goToPosition(double targetX, double targetY){
 
 void FlightController::throttlePower(double power){
 
-	throttleServo->writeMicroseconds(map(power,-100,100,THROTTLE_MIN,THROTTLE_MAX));
+	throttleServo.writeMicroseconds(map(power,-100,100,THROTTLE_MIN,THROTTLE_MAX));
 
 }
 void FlightController::pitchPower(double power){
 
-	rollServo->writeMicroseconds(map(power,-100,100,PITCH_MIN,PITCH_MAX));
+	rollServo.writeMicroseconds(map(power,-100,100,PITCH_MIN,PITCH_MAX));
 }
 void FlightController::rollPower(double power){
 
-	pitchServo->writeMicroseconds(map(power,-100,100,ROLL_MIN,ROLL_MAX));
+	pitchServo.writeMicroseconds(map(power,-100,100,ROLL_MIN,ROLL_MAX));
 
 }

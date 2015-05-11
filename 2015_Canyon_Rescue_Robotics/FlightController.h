@@ -41,15 +41,15 @@ private:
 	void throttlePower(double power);
 
 	// Instantiate Servos
-	Servo* yawServo;
-	Servo* throttleServo;
-	Servo* pitchServo;
-	Servo* rollServo;
+	Servo yawServo;
+	Servo throttleServo;
+	Servo pitchServo;
+	Servo rollServo;
 
 	// Instantiate PID controllers
-	PID *throttlePID;
-	PID *pitchPID;
-	PID *rollPID;
+	PID * throttlePID;
+	PID * pitchPID;
+	PID * rollPID;
 
 	RelativePositionController* relativePosition;
 	//Declare PID variables

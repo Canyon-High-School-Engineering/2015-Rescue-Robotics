@@ -2,6 +2,9 @@
 // comment out to switch to serial debugging
 #define WiFiDebugging
 
+#define WIFI_SSID
+#define WIFI_PASSPHRASE
+
 
 // PPM out pins for servo attach
 #define YAW_PIN 1
@@ -11,6 +14,9 @@
 
 // Autopilot active trigger
 #define AUTOPILOT_ACTIVE 5
+
+// flight parameters
+#define SEARCH_ALTITUDE 3
 
 // throttle PID constants
 #define THROTTLE_PID_K .5

@@ -6,23 +6,23 @@
 #include <Adafruit_GPS.h>
 #include <Servo.h>
 #include <PID_v1.h>
+#include <SD.h>
 
-#import "RelativePositionController.h"
-#import "FlightController.h"
+
+#include "RelativePositionController.h"
+#include "FlightController.h"
 
 bool usingInterrupt = true;
 
 
-
-
 //Select the serial
-//SoftwareSerial gpsSerial(2,3);
-HardwareSerial gpsSerial = Serial1;
+SoftwareSerial gpsSerial(2,3);
+//HardwareSerial gpsSerial = Serial1;
 
 Adafruit_GPS GPS(&gpsSerial); //Instantiate GPS
 
-RelativePositionController *relativePosition = new RelativePositionController(); //Instantiate relative position controller
-FlightController *flight = new FlightController(relativePosition); //Instantiate flight controller
+RelativePositionController relativePosition;// = new RelativePositionController(); //Instantiate relative position controller
+FlightController flight(&relativePosition); //Instantiate flight controller
 
 //state machine state enumeration
 enum FlightModeEnum {WAIT_FOR_TRIGGER,
@@ -44,9 +44,6 @@ double targetBucketY;
 
 void setup()
 {
-	//instantiate and initalize state machine enum
-
-
 	//set up serial debugging
 	Serial.begin(9600);
 
@@ -56,7 +53,7 @@ void setup()
 	GPS.sendCommand(PMTK_SET_NMEA_UPDATE_1HZ);
 
 	//set home position for relative calculations
-	relativePosition->setHomePosition(GPS.latitude,GPS.longitude, GPS.altitude);
+	relativePosition.setHomePosition(GPS.latitude,GPS.longitude, GPS.altitude);
 
 
 }
@@ -94,7 +91,7 @@ void loop()
 
 
 // ---------- Update Relative position
-	relativePosition->updateRelativePosition(GPS.latitude,GPS.longitude,GPS.altitude);
+	relativePosition.updateRelativePosition(GPS.latitude,GPS.longitude,GPS.altitude);
 
 	//Add your repeated code here
 
@@ -107,7 +104,7 @@ void loop()
 		break;
 
 	case ARM:
-		flight->arm();
+		flight.arm();
 
 		delay(5000); //delay for 5 seconds
 
@@ -115,7 +112,7 @@ void loop()
 		break;
 
 	case TAKE_OFF:
-		if(abs(flight->goToAltitude(3))<Z_MAX_ERROR){
+		if(abs(flight.goToAltitude(SEARCH_ALTITUDE))<Z_MAX_ERROR){
 			flightMode=SET_NEXT_BUCKET;
 		}
 		else{
@@ -146,7 +143,7 @@ void loop()
 		break;
 
 	case FLY_TO_BUCKET:
-		if(abs(flight->goToPosition(targetBucketX,targetBucketY))<XY_MAX_ERROR){
+		if(abs(flight.goToPosition(targetBucketX,targetBucketY))<XY_MAX_ERROR){
 			flightMode=RECORD_PHOTO_AND_COORDINATES;
 		}
 		else{
@@ -162,7 +159,7 @@ void loop()
 		break;
 
 	case RETURN_TO_CENTER:
-		if(abs(flight->goToPosition(0,0))<XY_MAX_ERROR){
+		if(abs(flight.goToPosition(0,0))<XY_MAX_ERROR){
 			flightMode=LAND;
 		}
 		else{
@@ -171,7 +168,7 @@ void loop()
 		break;
 
 	case LAND:
-		if(abs(flight->goToAltitude(0))<Z_MAX_ERROR){
+		if(abs(flight.goToAltitude(0))<Z_MAX_ERROR){
 			flightMode=SET_NEXT_BUCKET;
 		}
 		else{
@@ -180,7 +177,7 @@ void loop()
 		break;
 
 	case DISARM:
-		flight->disarm();
+		flight.disarm();
 
 		delay(5000); //delay for 5 seconds
 

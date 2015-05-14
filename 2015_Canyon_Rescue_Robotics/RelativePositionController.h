@@ -15,6 +15,10 @@ class RelativePositionController {
 	double homePositionAlt; //home altitude in meters
 	bool homeSet;
 
+	double currentLat;
+	double currentLon;
+	double currentAlt;
+
 	double relativeY; //  y position in meters
 	double relativeX; // x position in meters
 	double relativeZ; // z position in meters
@@ -30,10 +34,32 @@ public:
 	void setHomePosition(float lat, float lon, float alt);
 	void updateRelativePosition(float lat, float lon, float alt);
 
-	//getters for relative position
-	double getRelY();
-	double getRelX();
-	double getRelZ();
+
+//getters for absolute position
+	double getCurrentAlt() const {
+		return currentAlt;
+	}
+
+	double getCurrentLat() const {
+		return currentLat;
+	}
+
+	double getCurrentLon() const {
+		return currentLon;
+	}
+
+//getters for relative position
+	double getRelativeX() const {
+		return relativeX;
+	}
+
+	double getRelativeY() const {
+		return relativeY;
+	}
+
+	double getRelativeZ() const {
+		return relativeZ;
+	}
 };
 
 #endif /* RELATIVEPOSITIONCONTROLLER_H_ */

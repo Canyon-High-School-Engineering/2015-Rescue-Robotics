@@ -11,6 +11,9 @@ RelativePositionController::RelativePositionController() {
 	homePositionLat = 0;
 	homePositionLon = 0;
 	homePositionAlt = 0;
+	currentLat = 0;
+	currentLon = 0;
+	currentAlt = 0;
 	relativeX = 0;
 	relativeY = 0;
 	relativeZ = 0;
@@ -21,6 +24,9 @@ RelativePositionController::RelativePositionController(float lat, float lon, flo
 	homePositionLat = lat;
 	homePositionLon = lon;
 	homePositionAlt = alt;
+	currentLat = 0;
+	currentLon = 0;
+	currentAlt = 0;
 	relativeX = 0;
 	relativeY = 0;
 	relativeZ = 0;
@@ -44,6 +50,9 @@ void RelativePositionController::setHomePosition(float lat, float lon, float alt
 
 void RelativePositionController::updateRelativePosition(float lat, float lon, float alt)
 {
+	currentLat = lat;
+	currentLon = lon;
+	currentAlt = alt;
 
   if(homeSet){
     relativeY = (lat - homePositionLat)*110575;
@@ -55,15 +64,3 @@ void RelativePositionController::updateRelativePosition(float lat, float lon, fl
   }
 }
 
-double RelativePositionController::getRelY()
-{
-	return relativeY;
-}
-double RelativePositionController::getRelX()
-{
-	return relativeX;
-}
-double RelativePositionController::getRelZ()
-{
-	return relativeZ;
-}

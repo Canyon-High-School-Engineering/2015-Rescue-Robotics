@@ -15,25 +15,9 @@
 
 class FlightController {
 
-
-public:
-	FlightController(RelativePositionController *RelativePosition); // constructor
-	virtual ~FlightController(); //destructor
-
-	// arm and disarm
-	void arm();
-	void disarm();
-
-	void allZero();
-
-	// go-to commands
-	double goToAltitude(double targetZ);
-	double goToPosition(double targetX, double targetY);
-
-
-
-
 private:
+
+	RelativePositionController * relativePosition;
 
 	//declare functions
 	void pitchPower(double power);
@@ -51,7 +35,8 @@ private:
 	PID * pitchPID;
 	PID * rollPID;
 
-	RelativePositionController* relativePosition;
+
+
 	//Declare PID variables
 	//Each PID controller seems to want its own set of variables
 	double throttleInput = 0;
@@ -70,6 +55,21 @@ private:
 	double rollError = 0;
 
 	double xyError = 0;
+
+
+public:
+	FlightController(RelativePositionController *RelativePosition); // constructor
+	virtual ~FlightController(); //destructor
+
+	// arm and disarm
+	void arm();
+	void disarm();
+
+	void allZero();
+
+	// go-to commands
+	double goToAltitude(double targetZ);
+	double goToPosition(double targetX, double targetY);
 
 
 

@@ -11,11 +11,7 @@
 
 
 FlightController::FlightController(RelativePositionController *RelativePosition) {
-	// Instantiate Servo
-//	yawServo = new Servo();
-//	throttleServo  = new Servo();
-//	pitchServo  = new Servo();
-//	rollServo = new Servo();
+
 
 	relativePosition = RelativePosition;
 
@@ -81,7 +77,7 @@ void FlightController::allZero(){
 double FlightController::goToAltitude(double targetZ){
 
 	throttleSetpoint = targetZ;
-	throttleInput = relativePosition->getRelZ();
+	throttleInput = relativePosition->getRelativeZ();
 	throttlePID->Compute();
 	throttlePower(throttleOutput);
 	throttleError = throttleSetpoint - throttleInput;
@@ -93,13 +89,13 @@ double FlightController::goToAltitude(double targetZ){
 double FlightController::goToPosition(double targetX, double targetY){
 
 	rollSetpoint = targetX;
-	rollInput = relativePosition->getRelY();
+	rollInput = relativePosition->getRelativeY();
 	rollPID->Compute();
 	rollPower(rollOutput);
 	rollError = rollSetpoint - rollInput;
 
 	pitchSetpoint = targetY;
-	pitchInput = relativePosition->getRelY();
+	pitchInput = relativePosition->getRelativeY();
 	pitchPID->Compute();
 	pitchPower(pitchOutput);
 	pitchError = pitchSetpoint - pitchInput;

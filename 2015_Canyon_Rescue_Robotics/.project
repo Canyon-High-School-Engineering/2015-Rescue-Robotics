@@ -80,15 +80,15 @@
 	<variableList>
 		<variable>
 			<name>ArduinoHardwareLibPath</name>
-			<value>file:/Applications/Arduino1.5.7.app/Contents/Resources/Java/hardware/arduino/avr/libraries</value>
+			<value>file:/Applications/Arduino%201.5.7.app/Contents/Resources/Java/hardware/arduino/avr/libraries</value>
 		</variable>
 		<variable>
 			<name>ArduinoPinPath</name>
-			<value>file:/Applications/Arduino1.5.7.app/Contents/Resources/Java/hardware/arduino/avr/variants</value>
+			<value>file:/Applications/Arduino%201.5.7.app/Contents/Resources/Java/hardware/arduino/avr/variants</value>
 		</variable>
 		<variable>
 			<name>ArduinoPlatformPath</name>
-			<value>file:/Applications/Arduino1.5.7.app/Contents/Resources/Java/hardware/arduino/avr</value>
+			<value>file:/Applications/Arduino%201.5.7.app/Contents/Resources/Java/hardware/arduino/avr</value>
 		</variable>
 	</variableList>
 </projectDescription>

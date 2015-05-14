@@ -2,8 +2,8 @@
 // comment out to switch to serial debugging
 #define WiFiDebugging
 
-#define WIFI_SSID
-#define WIFI_PASSPHRASE
+#define WIFI_SSID "Canyon Engineering"
+#define WIFI_PASSPHRASE "Comanches"
 
 
 // PPM out pins for servo attach
@@ -15,8 +15,18 @@
 // Autopilot active trigger
 #define AUTOPILOT_ACTIVE 5
 
+// Slave Select Pins
+#define SD_CARD_CS_PIN 4 //use pin 4 for wifi shield
+#define WIFI_CS_PIN 4 //use pin ?? for wifi shield
+
+// Soft Serial Pins
+#define CAMERA_SERIAL_TX_PIN 4
+#define CAMERA_SERIAL_RX_PIN 5
+#define GPS_SERIAL_TX_PIN 3
+#define GPS_SERIAL_RX_PIN 2
+
 // flight parameters
-#define SEARCH_ALTITUDE 3
+#define SEARCH_ALTITUDE 3 // cruise altitude in meters
 
 // throttle PID constants
 #define THROTTLE_PID_K .5

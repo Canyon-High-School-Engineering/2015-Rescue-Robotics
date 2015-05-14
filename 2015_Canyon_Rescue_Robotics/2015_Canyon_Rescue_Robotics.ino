@@ -7,22 +7,25 @@
 #include <Servo.h>
 #include <PID_v1.h>
 #include <SD.h>
+#include <Adafruit_VC0706.h>
 
 
 #include "RelativePositionController.h"
 #include "FlightController.h"
+#include "VictimLoggerController.h"
 
 bool usingInterrupt = true;
 
 
 //Select the serial
-SoftwareSerial gpsSerial(2,3);
+SoftwareSerial gpsSerial(GPS_SERIAL_RX_PIN,GPS_SERIAL_TX_PIN); //Rx pin, Tx pin
 //HardwareSerial gpsSerial = Serial1;
 
 Adafruit_GPS GPS(&gpsSerial); //Instantiate GPS
 
 RelativePositionController relativePosition;// = new RelativePositionController(); //Instantiate relative position controller
 FlightController flight(&relativePosition); //Instantiate flight controller
+VictimLoggerController victimLogger(&relativePosition);
 
 //state machine state enumeration
 enum FlightModeEnum {WAIT_FOR_TRIGGER,
@@ -35,7 +38,7 @@ enum FlightModeEnum {WAIT_FOR_TRIGGER,
 FlightModeEnum flightMode = WAIT_FOR_TRIGGER;
 
 //variables for bucket coordinate calculation
-int bucketIndex = 0;
+extern int bucketIndex = 0;
 double bucketPolarTheta = 0;
 double bucketPolarRadius = 10;
 double targetBucketX;
@@ -91,7 +94,7 @@ void loop()
 
 
 // ---------- Update Relative position
-	relativePosition.updateRelativePosition(GPS.latitude,GPS.longitude,GPS.altitude);
+	relativePosition.updateRelativePosition(GPS.latitudeDegrees,GPS.longitudeDegrees,GPS.altitude);
 
 	//Add your repeated code here
 

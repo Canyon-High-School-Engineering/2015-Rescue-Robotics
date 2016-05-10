@@ -2,7 +2,7 @@
  * VictimLoggerController.cpp
  *
  *  Created on: May 11, 2015
- *      Author: Seth
+ *      Author: Seth Itow
  */
 
 #include "VictimLoggerController.h"
@@ -18,7 +18,7 @@ VictimLoggerController::VictimLoggerController(RelativePositionController * Rela
 //initialize SD card
 	  Serial.print("Initializing SD card...");
 	  // make sure that the default chip select pin is set to
-	  // output, even if you don't use it:
+	  // output, even if you don't use it (glitch in SD library)
 	  pinMode(10, OUTPUT);
 
 	  // see if the card is present and can be initialized:
@@ -32,7 +32,6 @@ VictimLoggerController::VictimLoggerController(RelativePositionController * Rela
 // initialize camera
 	  SoftwareSerial cameraConnection = SoftwareSerial(CAMERA_SERIAL_RX_PIN, CAMERA_SERIAL_TX_PIN); //Rx pin, Tx pin
 	  cam = new Adafruit_VC0706(&cameraConnection);
-	  //Adafruit_VC0706 cam =
 
 	  if (cam->begin()) {
 	      Serial.println("Camera Found");
@@ -121,8 +120,7 @@ String dataString3 = "GPS Coordinates :" + double2string(lat,5) + "," + double2s
 String dataString4 = "Photo:" + filename;
 String dataString5 = "********* END **********";
 
-// Logging all data together for us to see after we look at SD card.
-// open the file. note that only one file can be open at a time,
+// Open the file. Only one file can be open at a time,
 // so you have to close this one before opening another.
 File dataFile = SD.open("victims.txt", FILE_WRITE);
 
@@ -147,7 +145,7 @@ if (dataFile) {
 }
 // if the file isn't open, pop up an error:
 else {
-  Serial.println("error opening victims.txt");
+  //Serial.println("error opening victims.txt");
 }
 }
 

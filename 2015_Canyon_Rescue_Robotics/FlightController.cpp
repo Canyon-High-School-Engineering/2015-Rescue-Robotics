@@ -4,7 +4,7 @@
  * FlightController.cpp
  *
  *  Created on: Apr 10, 2015
- *      Author: Seth
+ *      Author: Seth Itow
  */
 
 #include "FlightController.h"
@@ -13,7 +13,9 @@
 FlightController::FlightController(RelativePositionController *RelativePosition) {
 
 
-	relativePosition = RelativePosition;
+	relativePosition = RelativePosition; //pull instance of relative postion controller
+
+	// TODO make this use less ram, probably by only instantiating one instance of the PID controller
 
 	// Instantiate PID controllers
 	throttlePID = new PID(&throttleInput, &throttleOutput, &throttleSetpoint,THROTTLE_PID_K,THROTTLE_PID_I,THROTTLE_PID_D, DIRECT);
@@ -48,7 +50,7 @@ FlightController::~FlightController() {
 	// TODO Auto-generated destructor stub
 }
 
-//arm and disarm
+// Arms and disarms the flight controller controller 
 void FlightController::arm(){
 	throttleServo.writeMicroseconds(1000);
 	yawServo.writeMicroseconds(1000);
@@ -63,8 +65,9 @@ void FlightController::disarm(){
 	allZero();
 }
 
+//Sets all PWM outputs to the center of the throw.
+//Equivalent of moving all sticks to their center position
 void FlightController::allZero(){
-	//zero all servos
 	yawServo.writeMicroseconds(1500);
 	throttleServo.writeMicroseconds(1500);
 	pitchServo.writeMicroseconds(1500);
@@ -72,8 +75,10 @@ void FlightController::allZero(){
 }
 
 
-// go-to commands
-
+// The goTo functions run a PID controller to move the airframe
+// to a specific position. they return the error after 1 PID cycle.
+// The functions should be run continuously at main loop speed until
+// the error is within an acceptable range.
 double FlightController::goToAltitude(double targetZ){
 
 	throttleSetpoint = targetZ;
@@ -106,7 +111,8 @@ double FlightController::goToPosition(double targetX, double targetY){
 
 }
 
-
+// These functions map a power value between -100 and 100 to the correct
+// microsecond values to write to the PWM outputs.
 void FlightController::throttlePower(double power){
 
 	throttleServo.writeMicroseconds(map(power,-100,100,THROTTLE_MIN,THROTTLE_MAX));

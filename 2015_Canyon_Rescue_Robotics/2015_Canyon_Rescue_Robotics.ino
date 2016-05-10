@@ -1,3 +1,10 @@
+/*
+ * 2015_Canyon_Rescue_Robotics.ino
+ *
+ *  Created on: Apr 10, 2015
+ *      Author: Seth Itow
+ */
+
 #include "config.h"
 #include <SPI.h>
 #include <WiFi.h>
@@ -14,14 +21,12 @@
 #include "FlightController.h"
 #include "VictimLoggerController.h"
 
-bool usingInterrupt = true;
+bool usingInterrupt = true; //configuration flag for GPS library
 
 
-//Select the serial
 SoftwareSerial gpsSerial(GPS_SERIAL_RX_PIN,GPS_SERIAL_TX_PIN); //Rx pin, Tx pin
-//HardwareSerial gpsSerial = Serial1;
 
-Adafruit_GPS GPS(&gpsSerial); //Instantiate GPS
+Adafruit_GPS GPS(&gpsSerial); //Instantiate GPS library object
 
 RelativePositionController relativePosition;// = new RelativePositionController(); //Instantiate relative position controller
 FlightController flight(&relativePosition); //Instantiate flight controller
@@ -35,10 +40,10 @@ enum FlightModeEnum {WAIT_FOR_TRIGGER,
 	LAND,DISARM,
 	EMERGENCY_STOP};
 
-FlightModeEnum flightMode = WAIT_FOR_TRIGGER;
+FlightModeEnum flightMode = WAIT_FOR_TRIGGER; // set initial state
 
 //variables for bucket coordinate calculation
-extern int bucketIndex = 0;
+extern int bucketIndex = 0; //declared in VictimLoggerController
 double bucketPolarTheta = 0;
 double bucketPolarRadius = 10;
 double targetBucketX;
@@ -61,6 +66,8 @@ void setup()
 
 }
 
+// Special timer stuff for GPS library
+
 SIGNAL(TIMER0_COMPA_vect) {
   char c = GPS.read();
 }
@@ -79,7 +86,8 @@ void useInterrupt(boolean v) {
   }
 }
 
-uint32_t timer = millis();
+
+uint32_t timer = millis(); //timer requred for GPS library
 
 // The loop function is called in an endless loop
 void loop()
@@ -96,7 +104,7 @@ void loop()
 // ---------- Update Relative position
 	relativePosition.updateRelativePosition(GPS.latitudeDegrees,GPS.longitudeDegrees,GPS.altitude);
 
-	//Add your repeated code here
+// ---------- Beginning of state machine
 
 	switch(flightMode) {
 

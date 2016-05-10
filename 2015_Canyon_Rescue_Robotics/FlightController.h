@@ -2,7 +2,7 @@
  * FlightController.h
  *
  *  Created on: Apr 10, 2015
- *      Author: Seth
+ *      Author: Seth Itow
  */
 #ifndef FLIGHTCONTROLLER_H_
 #define FLIGHTCONTROLLER_H_

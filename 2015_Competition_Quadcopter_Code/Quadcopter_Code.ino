@@ -1,10 +1,14 @@
 
+
+
+
 #include "config.h"
 
 #include <Servo.h>
 #include <SPI.h>
 #include <WiFi.h>
-
+#include <SoftwareSerial.h>
+#include <Adafruit_VC0706.h>
 
 // ********************************************* INITIALIZE WIFI *********************************************
 char ssid[] = "CanyonEngineering"; //  your network SSID (name)
@@ -23,6 +27,10 @@ boolean alreadyConnected = false; // whether or not the client was connected pre
 	Servo throttleServo;
 	Servo pitchServo;
 	Servo rollServo;
+
+// ********************************************* INITIALIZE CAMERA *********************************************
+//SoftwareSerial cameraconnection = SoftwareSerial(CAMERA_SERIAL_RX_PIN, CAMERA_SERIAL_TX_PIN); // RX, TX
+//SoftwareSerial cameraconnection = SoftwareSerial(2, 3);
 
 // ********************************************* INITIALIZE STATE MACHINE ENUM *********************************************
 enum FlightModeEnum {WAIT_FOR_TRIGGER,
@@ -202,12 +210,7 @@ sendLineToConsole("case: fly to bucket");
 		break;
 
 	case RETURN_TO_CENTER:
-//		if(abs(flight.goToPosition(0,0))<XY_MAX_ERROR){
-//			flightMode=LAND;
-//		}
-//		else{
-//			//do nothing
-//		}
+// do nothing
 
 		break;
 

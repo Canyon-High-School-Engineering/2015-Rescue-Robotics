@@ -2,7 +2,7 @@
  * VictimLoggerController.h
  *
  *  Created on: May 11, 2015
- *      Author: Seth
+ *      Author: Seth Itow
  */
 
 #include "config.h"

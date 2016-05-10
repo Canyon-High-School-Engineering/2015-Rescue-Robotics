@@ -2,24 +2,30 @@
  * RelativePositionController.h
  *
  *  Created on: Mar 18, 2015
- *      Author: Seth
+ *      Author: Seth Itow
  */
 
 #ifndef RELATIVEPOSITIONCONTROLLER_H_
 #define RELATIVEPOSITIONCONTROLLER_H_
 
+#include "config.h"
+
+
+
 class RelativePositionController {
 	//variable declarations
+
+private:
 	double homePositionLat; //home latitude in degrees
 	double homePositionLon; //home longitude in degrees
 	double homePositionAlt; //home altitude in meters
-	bool homeSet;
+	bool homeSet;			//is the home position currently set?
 
 	double currentLat;
 	double currentLon;
 	double currentAlt;
 
-	double relativeY; //  y position in meters
+	double relativeY; // y position in meters
 	double relativeX; // x position in meters
 	double relativeZ; // z position in meters
 
